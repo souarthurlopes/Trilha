@@ -21,6 +21,7 @@ const assert=require('node:assert/strict');
    if(req.method()==='OPTIONS')return route.fulfill({status:204,headers:{'access-control-allow-origin':'*','access-control-allow-headers':'*','access-control-allow-methods':'*'}});
    if(path==='/auth/v1/token'){const now=Math.floor(Date.now()/1000);const payload={sub:ids[role],aud:'authenticated',role:'authenticated',exp:now+3600,iat:now};const token='eyJhbGciOiJIUzI1NiJ9.'+Buffer.from(JSON.stringify(payload)).toString('base64url')+'.fakesignature';return response(route,200,{access_token:token,refresh_token:'refresh-'+role,token_type:'bearer',expires_in:3600,expires_at:now+3600,user:{id:ids[role],email:role+'@example.com',aud:'authenticated',role:'authenticated',user_metadata:{},app_metadata:{},created_at:new Date().toISOString()}})}
    if(path==='/auth/v1/logout')return route.fulfill({status:204});
+   if(path.endsWith('/rpc/school_registration_queue'))return response(route,404,{code:'PGRST202',message:'Registration not installed'});
    if(path.endsWith('/rpc/school_access_context'))return migrated?response(route,200,role==='owner'||membership?[{workspace_owner_id:ids.owner,owner_name:'Arthur',is_owner:role==='owner'}]:[]):response(route,404,{code:'PGRST202',message:'Function not found'});
    if(path.endsWith('/rpc/school_team_directory'))return response(route,200,directory());
    if(path.endsWith('/rpc/school_add_coordinator')){assert.equal(role,'owner');assert.equal(body.member_email,'member@example.com');membership=true;return response(route,200,null)}

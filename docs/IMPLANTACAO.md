@@ -46,7 +46,7 @@ values ('COLE-O-UUID-REAL-AQUI')
 on conflict (user_id) do nothing;
 ```
 
-4. Desative novos cadastros públicos em Authentication.
+4. Para os alunos criarem suas contas, habilite novos cadastros e confirmação de e-mail em Authentication. Configure também Site URL e Redirect URLs com o endereço do app.
 5. Configure URL e chave pública no aplicativo e entre com esse usuário.
 6. Adicione a equipe pela aba Perfil e vincule alunos em Área do aluno.
 

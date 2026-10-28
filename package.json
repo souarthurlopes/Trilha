@@ -8,8 +8,8 @@
     "build": "node scripts/build-config.mjs && esbuild src/supabase.js --bundle --format=esm --minify --outfile=dist/supabase.js",
     "start": "node scripts/serve.mjs",
     "dev": "node scripts/serve.mjs",
-    "test": "node qa/public-config.mjs && node qa/finance-utils.mjs && node qa/database.mjs && node qa/team-database.mjs && node qa/student-database.mjs && node qa/finance-database.mjs",
-    "test:browser": "node qa/public-config-browser.cjs && node qa/browser.cjs && node qa/profile-browser.cjs && node qa/student-browser.cjs && node qa/finance-browser.cjs"
+    "test": "node qa/public-config.mjs && node qa/finance-utils.mjs && node qa/database.mjs && node qa/team-database.mjs && node qa/student-database.mjs && node qa/finance-database.mjs && node qa/registration-database.mjs",
+    "test:browser": "node qa/public-config-browser.cjs && node qa/browser.cjs && node qa/profile-browser.cjs && node qa/student-browser.cjs && node qa/finance-browser.cjs && node qa/registration-browser.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.108.2"

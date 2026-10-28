@@ -68,3 +68,17 @@ Sem as variáveis de build, a configuração manual por navegador continua dispo
 O endereço e o controle de visita da publicação antiga não são transferidos.
 O login e as regras RLS do Supabase continuam protegendo os registros online.
 Para o iPhone, abra o endereço novo no Safari e adicione-o à Tela de Início.
+
+## Cadastro autônomo dos alunos
+
+Depois de ativar a migração de cadastro, configure uma vez no Supabase:
+
+1. Authentication > Sign In / Providers: Allow new users to sign up ativado.
+2. Mantenha a confirmação de e-mail habilitada.
+3. Authentication > URL Configuration: Site URL com o endereço HTTPS real do app.
+4. Inclua esse mesmo endereço nas Redirect URLs permitidas.
+
+As pessoas usam Criar conta no próprio aplicativo. Depois da confirmação e do
+primeiro login, você aprova as solicitações em Área do aluno. Não é necessário
+criar cada pessoa em Authentication > Users. O primeiro responsável e eventuais
+novos coordenadores continuam dependendo de autorização explícita.
