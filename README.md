@@ -171,3 +171,16 @@ O aluno define e confirma a senha nova no próprio app. A URL do aplicativo deve
 continuar cadastrada em Authentication > URL Configuration (Site URL e Redirect
 URLs); usa a mesma configuração dos e-mails de confirmação. Estas melhorias não
 exigem SQL adicional. O módulo de quizzes continua exigindo sua migração inicial.
+
+## Aprender: livros, materiais e quiz
+
+No menu dos alunos, **Aprender** reúne duas seções: **Livros e materiais**
+(textos e links HTTPS para livros, PDFs e materiais didáticos) e **Quiz e ranking**.
+O quiz substitui as antigas atividades de resposta livre. O atalho da página
+inicial abre diretamente essa seção, com Aprender marcado no menu. As notas,
+a primeira tentativa oficial e o ranking por turma continuam com as mesmas regras.
+
+As atividades antigas deixam de aparecer para os alunos, mas seus registros e
+respostas são preservados no histórico da coordenação, em Área do aluno. Novos
+conteúdos nessa tela são materiais de apoio; novas atividades são criadas em
+Quizzes. Essa reorganização não exige alteração no banco de dados.
