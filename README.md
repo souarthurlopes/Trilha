@@ -184,3 +184,18 @@ As atividades antigas deixam de aparecer para os alunos, mas seus registros e
 respostas são preservados no histórico da coordenação, em Área do aluno. Novos
 conteúdos nessa tela são materiais de apoio; novas atividades são criadas em
 Quizzes. Essa reorganização não exige alteração no banco de dados.
+
+## Resultados por questão
+
+A coordenação acessa **Quizzes > Resultados** em cada quiz publicado ou encerrado.
+O relatório apresenta o total de tentativas finalizadas, o percentual geral de
+acertos, os acertos e erros por questão e a distribuição das alternativas.
+As perguntas com mais erros aparecem primeiro, com o gabarito e a explicação para
+ajudar na revisão da aula. O contexto mostra a turma e a semana do quiz.
+
+O relatório usa somente as primeiras tentativas já registradas e não altera notas
+nem pontuação. Respostas são consultadas sob as permissões existentes da
+coordenação, paginadas para evitar o limite padrão de registros do Supabase.
+Alunos não têm acesso a esse relatório. Não requer SQL adicional; o módulo
+original de quizzes deve estar instalado. Sem tentativas, o relatório informa
+que ainda não há respostas, sem apresentar um percentual artificial de zero.

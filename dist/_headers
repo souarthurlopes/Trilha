@@ -31,3 +31,6 @@
 
 /dashboard-utils.js
   Cache-Control: no-cache
+
+/quiz-results.js
+  Cache-Control: no-cache

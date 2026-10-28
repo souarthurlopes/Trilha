@@ -1,5 +1,5 @@
-const CACHE='trilha-v15';
-const ASSETS=['./','./index.html','./style.css','./app.js','./quiz-utils.js','./dashboard-utils.js','./config.js','./config-utils.js','./finance-utils.js','./supabase.js','./icon.svg','./brand-mark.svg','./brand-logo.svg','./brand-icon-192.png','./brand-icon-512.png','./manifest.webmanifest'];
+const CACHE='trilha-v16';
+const ASSETS=['./','./index.html','./style.css','./app.js','./quiz-utils.js','./quiz-results.js','./dashboard-utils.js','./config.js','./config-utils.js','./finance-utils.js','./supabase.js','./icon.svg','./brand-mark.svg','./brand-logo.svg','./brand-icon-192.png','./brand-icon-512.png','./manifest.webmanifest'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));self.skipWaiting()});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim()});
 self.addEventListener('fetch',event=>{const url=new URL(event.request.url);if(event.request.method!=='GET'||url.origin!==location.origin)return;event.respondWith(fetch(event.request).then(response=>{if(response.ok){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy))}return response}).catch(()=>caches.match(event.request).then(r=>r||(event.request.mode==='navigate'?caches.match('./index.html'):Response.error()))))});
