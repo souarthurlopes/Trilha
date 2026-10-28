@@ -1,3 +1,7 @@
+> Conexão padrão: use PUBLIC_SUPABASE_URL e PUBLIC_SUPABASE_KEY no build.
+> As referências abaixo à configuração por navegador descrevem o modo legado,
+> disponível quando a publicação não tem conexão padrão. Veja CLOUDFLARE.md.
+
 # Trilha Apostólica
 
 Aplicativo PWA estático para a coordenação da Trilha Apostólica. Inclui turmas,

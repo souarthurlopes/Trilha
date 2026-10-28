@@ -19,3 +19,9 @@
 
 /manifest.webmanifest
   Cache-Control: no-cache
+
+/config.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/config-utils.js
+  Cache-Control: no-cache

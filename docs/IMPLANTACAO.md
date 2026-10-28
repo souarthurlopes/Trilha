@@ -20,9 +20,11 @@ Não execute SQLs automaticamente na etapa de build. Use HTTPS e evite cache
 prolongado de `index.html` e `sw.js`.
 Não há publicação automática no GitHub Pages, Netlify ou Vercel neste repositório.
 
-Abra o endereço novo e configure a mesma URL e chave pública do Supabase.
-Entre com seu usuário existente. Gere novos links de acesso a partir do endereço
-novo para configurar outros dispositivos. Esses links não contêm senhas.
+Configure PUBLIC_SUPABASE_URL e PUBLIC_SUPABASE_KEY nas variáveis de build da
+hospedagem e publique novamente. O endereço novo abrirá direto no login em todos
+os dispositivos. Entre com a conta existente; não são necessárias chaves por usuário.
+Veja docs/CLOUDFLARE.md para o caminho das variáveis no Cloudflare. Sem variáveis
+de build, continua disponível a configuração manual por navegador.
 
 A restrição de visita da publicação antiga no Sites não acompanha o código.
 Configure o acesso da hospedagem nova conforme a plataforma escolhida.

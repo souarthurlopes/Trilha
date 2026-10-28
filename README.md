@@ -26,10 +26,28 @@ Mover o código para o GitHub **não exige recriar o Supabase**. Use o mesmo pro
 a mesma URL e a mesma chave pública. Os dados online permanecem no banco existente.
 Não é necessário executar os SQLs novamente apenas por trocar a hospedagem.
 
-Em Configurações, informe a Project URL e a chave Publishable ou anon. Nunca use
-service_role ou sb_secret. A configuração atual fica salva em cada navegador;
-Área do aluno > Copiar link de acesso ajuda a configurar outros dispositivos.
-Senhas e registros reais dos alunos não fazem parte deste repositório.
+## Conexão automática em todos os dispositivos
+
+Configure uma vez no **ambiente de build do Cloudflare**:
+
+| Variável | Valor |
+| --- | --- |
+| `PUBLIC_SUPABASE_URL` | Project URL do projeto que já usa |
+| `PUBLIC_SUPABASE_KEY` | Chave pública Publishable ou anon |
+
+Execute um novo build/deploy depois de salvar. O comando `npm run build` gera
+`dist/config.js` com essa configuração pública. O Wrangler também executa esse
+build antes de publicar. Não use service_role ou sb_secret; o build rejeita essas
+chaves. Valores não são impressos nos logs pelo gerador.
+
+Com a configuração padrão, qualquer dispositivo abre direto no login. Cada pessoa
+entra com seu e-mail e senha e recebe somente os acessos autorizados no banco.
+Não há configuração de chaves por participante, nem alteração das permissões RLS.
+A configuração da publicação prevalece sobre projetos antigos salvos no navegador.
+Os links compartilhados passam a usar somente o endereço limpo do aplicativo.
+
+Sem essas variáveis, permanece disponível o modo anterior: configuração manual
+por navegador em Configurações. Senhas e registros reais não fazem parte do repo.
 
 Para um projeto Supabase novo, siga o [guia de implantação](docs/IMPLANTACAO.md).
 

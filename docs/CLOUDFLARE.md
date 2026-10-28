@@ -38,14 +38,32 @@ Este repositório não executa um deploy por conta própria.
 ## Conectar o Supabase
 
 Mantenha o projeto atual. Não é necessário rodar o SQL novamente nem criar banco.
-No endereço novo, entre em Configurações e informe a URL do projeto e a chave
-pública Publishable ou anon. Depois entre com sua conta já autorizada.
+### Conexão padrão, sem chaves por dispositivo
 
-A versão atual salva essa configuração por navegador. Definir variáveis de
-ambiente no Cloudflare, sozinho, não configura o aplicativo no dispositivo.
-Use Área do aluno > Copiar link de acesso no endereço novo para configurar outros
-dispositivos com a mesma URL e chave pública. Senhas continuam individuais.
-Não use chaves secretas ou service_role no frontend.
+No projeto do aplicativo, abra **Settings → Build → Variables and secrets**
+(ou a seção de variáveis de ambiente do build) e cadastre:
+
+- `PUBLIC_SUPABASE_URL`: Project URL do mesmo projeto Supabase.
+- `PUBLIC_SUPABASE_KEY`: chave pública Publishable ou anon do projeto.
+
+Use o ambiente de **Production**. Se também quiser previews, configure os valores
+para o ambiente de preview conforme a opção disponível na sua conta.
+
+As variáveis precisam estar disponíveis no **build**, pois o aplicativo é estático.
+Variáveis definidas apenas como bindings do Worker em execução não substituem
+as variáveis de build. Salve e inicie um novo build/deploy.
+
+O build `npm run build` gera a conexão padrão automaticamente. O `wrangler.jsonc`
+também chama esse build ao publicar via Wrangler. O arquivo `dist/config.js`
+contém apenas URL e chave pública; nenhuma senha ou chave privilegiada é aceita.
+Use a Publishable ou anon; nunca service_role ou sb_secret.
+
+Depois da publicação, o novo endereço abre diretamente no login para todos.
+Cada pessoa continua usando a própria conta e os acessos concedidos pela coordenação.
+Não é necessário executar SQL novamente. Se o app já estava aberto, recarregue-o
+para carregar a conexão padrão.
+
+Sem as variáveis de build, a configuração manual por navegador continua disponível.
 
 O endereço e o controle de visita da publicação antiga não são transferidos.
 O login e as regras RLS do Supabase continuam protegendo os registros online.
