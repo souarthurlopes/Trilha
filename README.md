@@ -129,3 +129,26 @@ Se houver várias equipes no mesmo projeto, compartilhe o link gerado em
 Solicitações > Copiar link de cadastro. O link identifica a equipe sem expor
 listas de alunos ou dados de coordenação. Em um projeto novo, o responsável pode
 precisar clicar em Ativar cadastro depois de criar a primeira escola.
+
+## Quizzes e ranking semanal por turma
+
+A coordenação cria quizzes em **Quizzes > Novo quiz**, com enunciado, 2 a 6
+alternativas, resposta correta e explicação opcional. Cada quiz pertence a uma
+turma e semana. É possível salvar rascunho, publicar, encerrar e criar cópia.
+Após publicar, perguntas, gabarito, turma e semana ficam protegidos; use uma cópia
+para novas questões. O aluno responde em **Quiz** e consulta o resultado e o
+ranking da própria turma. O ranking soma acertos da primeira tentativa finalizada
+de cada quiz da semana, de segunda a domingo, no horário de São Paulo. Empates
+compartilham a posição. A participação é opcional e não altera as notas.
+
+Em banco existente com a área do aluno já instalada, execute `dist/quizzes.sql`
+no SQL Editor do Supabase e atualize os dados no app. Também há um botão para
+baixar o SQL na aba Quizzes enquanto o módulo não estiver ativado. O esquema
+completo já inclui esse módulo para instalações novas. Não é necessário alterar
+as variáveis do Cloudflare. O modo local permite preparar questões e visualizar
+uma prévia; as tentativas oficiais e o ranking usam o Supabase.
+
+A correção acontece no servidor. O gabarito não é enviado antes da finalização;
+os alunos não podem escrever pontuação nem consultar tentativas de colegas.
+Quizzes encerrados preservam os pontos já obtidos. Só alunos com acesso aprovado
+participam; o ranking apresenta nome e acertos, sem contatos ou dados financeiros.

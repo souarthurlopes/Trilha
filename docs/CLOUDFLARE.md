@@ -82,3 +82,11 @@ As pessoas usam Criar conta no próprio aplicativo. Depois da confirmação e do
 primeiro login, você aprova as solicitações em Área do aluno. Não é necessário
 criar cada pessoa em Authentication > Users. O primeiro responsável e eventuais
 novos coordenadores continuam dependendo de autorização explícita.
+
+## Ativar quizzes e ranking
+
+Depois do deploy da versão que contém a aba Quizzes, execute `dist/quizzes.sql`
+no SQL Editor do projeto Supabase existente (requer a área do aluno instalada).
+Clique em Atualizar dados no app. Nenhuma nova variável de ambiente é necessária.
+O deploy sozinho não cria tabelas no Supabase. O ranking é separado por turma e
+semanal; a correção e a proteção da primeira tentativa ocorrem no banco.

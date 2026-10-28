@@ -25,3 +25,6 @@
 
 /config-utils.js
   Cache-Control: no-cache
+
+/quiz-utils.js
+  Cache-Control: no-cache
