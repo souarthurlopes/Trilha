@@ -48,6 +48,13 @@ O projeto é estático, sem servidor obrigatório em produção. Use HTTPS para 
 no iPhone. Este repositório não ativa uma hospedagem automaticamente; a publicação
 anterior continua independente até configurar a troca de endereço.
 
+## Cloudflare
+
+Para publicar no **Cloudflare Pages**, conecte este repositório e configure
+**branch `main`**, **framework `None`**, **build `npm run build`** e **saída `dist`**.
+O Node 22 está declarado em `.nvmrc`. Também há um `wrangler.jsonc` para a opção
+Workers com assets estáticos. Veja o [passo a passo do Cloudflare](docs/CLOUDFLARE.md).
+
 ## Testes
 
 ```bash

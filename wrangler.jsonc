@@ -1,0 +1,7 @@
+{
+  "name": "trilha-apostolica",
+  "compatibility_date": "2026-10-28",
+  "assets": {
+    "directory": "./dist"
+  }
+}
