@@ -199,3 +199,26 @@ coordenação, paginadas para evitar o limite padrão de registros do Supabase.
 Alunos não têm acesso a esse relatório. Não requer SQL adicional; o módulo
 original de quizzes deve estar instalado. Sem tentativas, o relatório informa
 que ainda não há respostas, sem apresentar um percentual artificial de zero.
+
+## Agendamento dos quizzes
+
+Em **Quizzes > Novo quiz / Editar quiz**, informe **Abertura programada** e
+**Encerramento programado** e salve como publicado. É possível preparar quizzes
+para semanas futuras. Os horários são interpretados no fuso America/Sao_Paulo,
+independentemente do fuso do dispositivo, e devem estar dentro da semana escolhida.
+Deixar os campos vazios mantém o comportamento anterior: segunda às 00h até a
+segunda seguinte às 00h (encerramento exclusivo).
+
+Para atualizar um banco existente, execute `dist/quiz-scheduling.sql` no SQL
+Editor do Supabase e atualize os dados no app. O editor oferece o download desse
+arquivo. O esquema completo e a instalação de quizzes já incluem o agendamento.
+A atualização preserva as notas, os quizzes e as tentativas existentes.
+
+O banco controla o período de resposta, mesmo com o aplicativo fechado. Antes da
+abertura, os alunos veem o aviso de agendamento da semana, sem acesso às questões.
+Depois do encerramento, não são aceitas novas tentativas; quem já respondeu
+mantém acesso ao resultado e seus pontos continuam no ranking. Uma resposta só
+é aceita se for finalizada antes do horário de encerramento. A tela de quizzes
+atualiza os dados a cada 30 segundos quando visível e sem uma resposta em edição.
+Encerrar manualmente desativa novas respostas; reabrir respeita o período salvo.
+A coordenação pode editar os horários sem apagar as tentativas.

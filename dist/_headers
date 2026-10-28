@@ -34,3 +34,6 @@
 
 /quiz-results.js
   Cache-Control: no-cache
+
+/quiz-schedule.js
+  Cache-Control: no-cache
