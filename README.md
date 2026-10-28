@@ -152,3 +152,22 @@ A correção acontece no servidor. O gabarito não é enviado antes da finaliza�
 os alunos não podem escrever pontuação nem consultar tentativas de colegas.
 Quizzes encerrados preservam os pontos já obtidos. Só alunos com acesso aprovado
 participam; o ranking apresenta nome e acertos, sem contatos ou dados financeiros.
+
+## Resumos, prévia e recuperação de senha
+
+A página inicial da coordenação reúne cadastros pendentes, cobranças vencidas e
+alunos com duas ou mais faltas nas últimas quatro chamadas registradas da turma
+atual. Justificativas não contam como faltas. Os atalhos levam ao cadastro,
+financeiro filtrado por atraso e acompanhamento.
+
+O aluno vê o próximo vencimento, eventuais atrasos, os quizzes disponíveis da
+semana e os avisos importantes. A prévia do quiz permite à coordenação conferir
+o gabarito e as explicações antes de publicar, sem registrar tentativa. O ranking
+permite navegar pelas semanas anteriores e destaca as três primeiras posições,
+preservando empates e a separação por turma.
+
+Na entrada, **Esqueci minha senha** envia o link de recuperação pelo Supabase.
+O aluno define e confirma a senha nova no próprio app. A URL do aplicativo deve
+continuar cadastrada em Authentication > URL Configuration (Site URL e Redirect
+URLs); usa a mesma configuração dos e-mails de confirmação. Estas melhorias não
+exigem SQL adicional. O módulo de quizzes continua exigindo sua migração inicial.
