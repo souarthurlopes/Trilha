@@ -1,0 +1,9 @@
+node_modules/
+.env*
+*.tar.gz
+*.zip
+qa/*.png
+qa/*backup.json
+.DS_Store
+playwright-report/
+test-results/

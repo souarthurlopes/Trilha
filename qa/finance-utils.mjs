@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';import {financeToday,parseChargeAmount,chargeStatus,financeSummary} from '../dist/finance-utils.js';
+assert.equal(financeToday(new Date('2026-10-28T01:30:00Z')),'2026-10-27');assert.equal(financeToday(new Date('2026-10-28T03:00:00Z')),'2026-10-28');
+for(const [input,expected]of [['120,00',12000],['120.50',12050],['1.234,56',123456],['0,01',1],['9.999.999,99',999999999],['1,2',120],['R$ 50,00',5000]])assert.equal(parseChargeAmount(input),expected);
+for(const input of ['0','-1','1,234','1.23,45','1e3','Infinity','99999999,99','abc'])assert.throws(()=>parseChargeAmount(input));
+const due='2026-10-27',c=(date,amount=10000,state='open')=>({due_date:date,amount_cents:amount,state});
+assert.equal(chargeStatus(c(due),due),'today');assert.equal(chargeStatus(c('2026-10-26'),due),'overdue');assert.equal(chargeStatus(c('2026-10-01',1000,'paid'),due),'paid');
+assert.equal(financeSummary([],due).status,'none');assert.equal(financeSummary([c('2026-10-01',1000,'canceled')],due).status,'none');
+const s=financeSummary([c('2026-10-10',5000),c('2026-11-05',10000),c('2026-10-01',20000,'paid'),c('2026-10-01',999999,'canceled')],due);assert.equal(s.status,'late');assert.equal(s.next.due_date,'2026-11-05');assert.equal(s.openCents,15000);assert.equal(s.overdueCents,5000);assert.equal(s.paidCents,20000);
+assert.equal(financeSummary([c(due)],due).status,'today');assert.equal(financeSummary([c('2026-11-01')],due).status,'current');assert.equal(financeSummary([c('2026-10-01',1000,'paid')],due).next,null);
+console.log('PASS: exact cents, Brazilian/decimal inputs, invalid amounts, São Paulo day boundaries, due-today vs overdue, canceled exclusion and next future due date.');

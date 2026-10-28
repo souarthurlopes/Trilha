@@ -1,0 +1,47 @@
+const {chromium}=require('playwright');
+const assert=require('node:assert/strict');
+(async()=>{
+ const browser=await chromium.launch({...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH}:{}),headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
+ const errors=[];
+ const local=await browser.newContext({viewport:{width:390,height:844}});const lp=await local.newPage();lp.on('pageerror',e=>errors.push(e.message));
+ await lp.goto('http://127.0.0.1:4173');await lp.getByRole('button',{name:'Perfil',exact:true}).click();
+ await lp.getByRole('textbox',{name:'Nome completo'}).fill('Arthur Lopes');await lp.getByRole('textbox',{name:/Responsabilidade/}).fill('Coordenação');
+ await lp.locator('#profile-photo').setInputFiles('dist/brand-icon-192.png');await lp.locator('#photo-preview img').waitFor();
+ await lp.getByRole('button',{name:'Salvar perfil',exact:true}).click();await lp.getByText('Perfil salvo.',{exact:true}).waitFor();
+ await lp.reload();await lp.getByRole('button',{name:'Perfil',exact:true}).click();assert.equal(await lp.getByRole('textbox',{name:'Nome completo'}).inputValue(),'Arthur Lopes');assert.equal(await lp.locator('#photo-preview img').count(),1);
+ assert.ok(await lp.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'profile horizontal overflow');
+ await lp.screenshot({path:'qa/profile-mobile.png',fullPage:true});
+ await lp.getByRole('button',{name:'Mais',exact:true}).click();await lp.getByRole('dialog').getByRole('button',{name:'Configurações',exact:true}).click();await lp.getByRole('heading',{name:'Configurações',exact:true}).waitFor();
+ const ids={owner:'11111111-1111-4111-8111-111111111111',member:'22222222-2222-4222-8222-222222222222'};
+ let membership=false;let migrated=true;const profiles={};const school={owner_id:ids.owner,revision:1,data:{classes:[{id:'c1',name:'Turma compartilhada'}],students:[],assessments:[],grades:[],attendance:[],notices:[]}};
+ function directory(){return [{user_id:ids.owner,display_name:profiles.owner?.display_name||'Arthur',email:'owner@example.com',member_role:'owner'},...(membership?[{user_id:ids.member,display_name:profiles.member?.display_name||'Coordenadora',email:'member@example.com',member_role:'coordinator'}]:[])]}
+ const response=(route,status,body)=>route.fulfill({status,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(body)});
+ async function context(role){const ctx=await browser.newContext({viewport:{width:1440,height:1040}});await ctx.addInitScript(()=>localStorage.setItem('trilha-supabase-v1',JSON.stringify({url:'https://test.supabase.co',key:'sb_publishable_fake'})));const p=await ctx.newPage();p.on('pageerror',e=>errors.push(e.message));
+  await p.route('https://test.supabase.co/**',async route=>{const req=route.request(),url=new URL(req.url()),body=req.postDataJSON()||{},path=url.pathname;let output;
+   if(req.method()==='OPTIONS')return route.fulfill({status:204,headers:{'access-control-allow-origin':'*','access-control-allow-headers':'*','access-control-allow-methods':'*'}});
+   if(path==='/auth/v1/token'){const now=Math.floor(Date.now()/1000);const payload={sub:ids[role],aud:'authenticated',role:'authenticated',exp:now+3600,iat:now};const token='eyJhbGciOiJIUzI1NiJ9.'+Buffer.from(JSON.stringify(payload)).toString('base64url')+'.fakesignature';return response(route,200,{access_token:token,refresh_token:'refresh-'+role,token_type:'bearer',expires_in:3600,expires_at:now+3600,user:{id:ids[role],email:role+'@example.com',aud:'authenticated',role:'authenticated',user_metadata:{},app_metadata:{},created_at:new Date().toISOString()}})}
+   if(path==='/auth/v1/logout')return route.fulfill({status:204});
+   if(path.endsWith('/rpc/school_access_context'))return migrated?response(route,200,role==='owner'||membership?[{workspace_owner_id:ids.owner,owner_name:'Arthur',is_owner:role==='owner'}]:[]):response(route,404,{code:'PGRST202',message:'Function not found'});
+   if(path.endsWith('/rpc/school_team_directory'))return response(route,200,directory());
+   if(path.endsWith('/rpc/school_add_coordinator')){assert.equal(role,'owner');assert.equal(body.member_email,'member@example.com');membership=true;return response(route,200,null)}
+   if(path.endsWith('/rpc/school_remove_coordinator')){assert.equal(role,'owner');membership=false;return response(route,200,null)}
+   if(path.endsWith('/school_learning_items'))return response(route,404,{code:'PGRST205',message:'table not found'});
+   if(path.endsWith('/school_finance_charges'))return response(route,404,{code:'PGRST205',message:'Finance table not yet installed'});
+if(path.endsWith('/school_profiles')){if(req.method()==='POST'){assert.equal(body.user_id,ids[role]);profiles[role]=body;return response(route,201,{user_id:ids[role]})}if(req.method()==='PATCH'){assert.equal('user_id' in body,false,'profile update must not write the account ID');assert.equal(url.searchParams.get('user_id'),'eq.'+ids[role]);profiles[role]={...profiles[role],...body};return response(route,200,{user_id:ids[role]})}return response(route,200,profiles[role]?[profiles[role]]:[])}
+   if(path.endsWith('/school_workspaces')){assert.equal(url.searchParams.get('owner_id'),'eq.'+ids.owner);if(req.method()==='PATCH'){if(Number(url.searchParams.get('revision').replace('eq.',''))!==school.revision)return response(route,200,[]);school.data=body.data;school.revision=body.revision;return response(route,200,[{revision:school.revision}])}return response(route,200,[{data:school.data,revision:school.revision}])}
+   return response(route,404,{message:'Unexpected test request '+path});
+  });
+  await p.goto('http://127.0.0.1:4173');await p.getByRole('textbox',{name:'E-mail',exact:true}).fill(role+'@example.com');await p.getByLabel('Senha',{exact:true}).fill('test-password');await p.getByRole('button',{name:'Entrar',exact:true}).click();await p.getByRole('heading',{name:'Cada passo importa.'}).waitFor();return p;
+ }
+ const owner=await context('owner');await owner.getByRole('button',{name:'Perfil',exact:true}).click();await owner.getByRole('textbox',{name:'Nome completo'}).fill('Arthur Lopes');await owner.getByRole('button',{name:'Salvar perfil'}).click();await owner.getByText('Perfil salvo.',{exact:true}).waitFor();assert.equal(profiles.owner.display_name,'Arthur Lopes');
+ await owner.getByRole('textbox',{name:/Telefone/}).fill('(11) 99999-0000');await owner.getByRole('button',{name:'Salvar perfil'}).click();await owner.getByText('Perfil salvo.',{exact:true}).waitFor();assert.equal(profiles.owner.phone,'(11) 99999-0000');await owner.reload();await owner.getByRole('button',{name:'Perfil',exact:true}).click();assert.equal(await owner.getByRole('textbox',{name:/Telefone/}).inputValue(),'(11) 99999-0000');
+ await owner.getByRole('button',{name:'Adicionar',exact:true}).click();await owner.getByRole('textbox',{name:'E-mail do coordenador'}).fill('member@example.com');await owner.getByRole('button',{name:'Salvar',exact:true}).click();await owner.locator('dialog').waitFor({state:'hidden'});assert.equal(await owner.locator('.team-member').count(),2);
+ await owner.screenshot({path:'qa/profile-desktop.png',fullPage:true});
+ const member=await context('member');await member.getByRole('button',{name:'Perfil',exact:true}).click();assert.equal(await member.getByRole('button',{name:'Adicionar',exact:true}).count(),0);assert.equal(await member.getByRole('button',{name:/Remover acesso de/}).count(),0);
+ await member.getByRole('textbox',{name:'Nome completo'}).fill('Marina Costa');await member.getByRole('button',{name:'Salvar perfil'}).click();await member.getByText('Perfil salvo.',{exact:true}).waitFor();assert.equal(profiles.member.display_name,'Marina Costa');
+ await member.getByRole('button',{name:'Turmas',exact:true}).click();await member.getByRole('button',{name:'Nova turma'}).click();await member.getByRole('textbox',{name:'Nome da turma'}).fill('Criada pela equipe');await member.getByRole('button',{name:'Salvar',exact:true}).click();await member.locator('dialog').waitFor({state:'hidden'});assert.equal(school.data.classes.length,2);
+ await owner.getByRole('button',{name:'Atualizar acesso'}).click();await owner.getByText('Dados e acesso atualizados.',{exact:true}).waitFor();await owner.getByRole('button',{name:'Turmas',exact:true}).click();assert.equal(await owner.getByRole('heading',{name:'Criada pela equipe',exact:true}).count(),1);
+ await owner.getByRole('button',{name:'Perfil',exact:true}).click();await owner.getByRole('button',{name:'Remover acesso de Marina Costa'}).click();await owner.getByRole('button',{name:'Confirmar',exact:true}).click();await owner.locator('dialog').waitFor({state:'hidden'});assert.equal(membership,false);
+ migrated=false;const legacy=await context('owner');await legacy.getByRole('button',{name:'Perfil',exact:true}).click();await legacy.getByText('Atualize o banco para liberar perfis e equipe.',{exact:true}).waitFor();assert.equal(await legacy.getByRole('button',{name:'Salvar perfil'}).isDisabled(),true);
+ assert.deepEqual(errors,[]);await browser.close();console.log('PASS: profile save and photo persistence, mobile menu, owner/member logins, shared workspace edits, member restrictions, access removal and legacy compatibility.');
+})().catch(e=>{console.error(e);process.exit(1)});

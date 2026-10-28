@@ -1,0 +1,26 @@
+{
+  "name": "trilha-apostolica",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check dist/app.js && node --check dist/sw.js && node --check dist/finance-utils.js",
+    "build": "esbuild src/supabase.js --bundle --format=esm --minify --outfile=dist/supabase.js",
+    "start": "node scripts/serve.mjs",
+    "dev": "node scripts/serve.mjs",
+    "test": "node qa/finance-utils.mjs && node qa/database.mjs && node qa/team-database.mjs && node qa/student-database.mjs && node qa/finance-database.mjs",
+    "test:browser": "node qa/browser.cjs && node qa/profile-browser.cjs && node qa/student-browser.cjs && node qa/finance-browser.cjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.108.2"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.12",
+    "esbuild": "0.25.12",
+    "playwright": "^1.56.1"
+  },
+  "description": "Trilha Apostólica — alunos, aprendizagem, presença e financeiro",
+  "engines": {
+    "node": ">=22"
+  }
+}
