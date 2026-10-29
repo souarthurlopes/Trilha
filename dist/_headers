@@ -37,3 +37,6 @@
 
 /quiz-schedule.js
   Cache-Control: no-cache
+
+/student-progress.js
+  Cache-Control: no-cache

@@ -222,3 +222,22 @@ mantém acesso ao resultado e seus pontos continuam no ranking. Uma resposta só
 atualiza os dados a cada 30 segundos quando visível e sem uma resposta em edição.
 Encerrar manualmente desativa novas respostas; reabrir respeita o período salvo.
 A coordenação pode editar os horários sem apagar as tentativas.
+
+## Busca e acompanhamento individual
+
+Em **Aprender > Livros e materiais**, a busca filtra o título e a descrição dos
+materiais publicados para a turma. Não diferencia maiúsculas nem acentos e aceita
+mais de uma palavra. Não pesquisa o conteúdo interno de PDFs ou sites vinculados.
+O filtro não inclui as atividades antigas do histórico.
+
+A coordenação abre o acompanhamento individual pelo botão **Acompanhar aluno**
+(ícone de gráfico) em **Alunos** ou tocando no nome em **Acompanhamento**. A tela
+reúne média, evolução cronológica das notas, chamadas com justificativas e as
+primeiras tentativas dos quizzes, incluindo acertos e aproveitamento. Os
+históricos podem incluir turmas anteriores; cada registro identifica sua turma.
+As notas das avaliações e os resultados dos quizzes permanecem separados.
+
+A consulta dos quizzes usa as permissões existentes da coordenação e filtra o
+aluno e a equipe no servidor, com paginação. Uma falha no módulo de quizzes não
+impede a consulta das notas e presenças, nem é apresentada como zero participações.
+Não exige SQL adicional. Alunos continuam sem acesso ao relatório da coordenação.

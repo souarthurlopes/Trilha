@@ -4,11 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check dist/app.js && node --check dist/sw.js && node --check dist/finance-utils.js && node --check dist/config-utils.js && node --check dist/config.js && node --check scripts/build-config.mjs && node --check dist/quiz-utils.js && node --check dist/dashboard-utils.js && node --check dist/quiz-results.js && node --check dist/quiz-schedule.js",
+    "check": "node --check dist/app.js && node --check dist/sw.js && node --check dist/finance-utils.js && node --check dist/config-utils.js && node --check dist/config.js && node --check scripts/build-config.mjs && node --check dist/quiz-utils.js && node --check dist/dashboard-utils.js && node --check dist/quiz-results.js && node --check dist/quiz-schedule.js && node --check dist/student-progress.js",
     "build": "node scripts/build-config.mjs && esbuild src/supabase.js --bundle --format=esm --minify --outfile=dist/supabase.js",
     "start": "node scripts/serve.mjs",
     "dev": "node scripts/serve.mjs",
-    "test": "node qa/public-config.mjs && node qa/finance-utils.mjs && node qa/database.mjs && node qa/team-database.mjs && node qa/student-database.mjs && node qa/finance-database.mjs && node qa/registration-database.mjs && node qa/quiz-utils.mjs && node qa/quiz-database.mjs && node qa/dashboard-utils.mjs && node qa/quiz-results.mjs && node qa/quiz-schedule.mjs",
+    "test": "node qa/public-config.mjs && node qa/finance-utils.mjs && node qa/database.mjs && node qa/team-database.mjs && node qa/student-database.mjs && node qa/finance-database.mjs && node qa/registration-database.mjs && node qa/quiz-utils.mjs && node qa/quiz-database.mjs && node qa/dashboard-utils.mjs && node qa/quiz-results.mjs && node qa/quiz-schedule.mjs && node qa/student-progress.mjs",
     "test:browser": "node qa/public-config-browser.cjs && node qa/browser.cjs && node qa/profile-browser.cjs && node qa/student-browser.cjs && node qa/finance-browser.cjs && node qa/registration-browser.cjs && node qa/quiz-browser.cjs && node qa/recovery-browser.cjs && node qa/dashboard-browser.cjs && node qa/quiz-results-browser.cjs"
   },
   "dependencies": {
