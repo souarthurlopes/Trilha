@@ -275,3 +275,11 @@ das anotações; use uma nova aula para outro vídeo. Arquivar desativa o acesso
 apagar as anotações; republicar restaura o acesso do aluno autorizado. Não há
 exclusão de aulas pela interface. A marcação de assistida é autodeclarada, sem
 rastrear a posição de reprodução nem alterar notas, frequência ou ranking.
+
+## Interface essencial
+
+As telas de uso mantêm títulos, dados e ações, sem os banners de instalação SQL,
+botões de baixar SQL ou introduções explicando cada módulo. Os scripts continuam
+em `supabase/` e `dist/` para instalação pelo responsável. Confirmações de ações,
+erros de salvamento, instruções de campos necessários e avisos de perda de dados
+continuam disponíveis. A alteração é apenas visual e não exige SQL novo.
