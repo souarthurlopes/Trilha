@@ -43,3 +43,6 @@
 
 /recorded-lessons.js
   Cache-Control: no-cache
+
+/quiz-practice.js
+  Cache-Control: no-cache

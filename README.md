@@ -283,3 +283,17 @@ botões de baixar SQL ou introduções explicando cada módulo. Os scripts conti
 em `supabase/` e `dist/` para instalação pelo responsável. Confirmações de ações,
 erros de salvamento, instruções de campos necessários e avisos de perda de dados
 continuam disponíveis. A alteração é apenas visual e não exige SQL novo.
+
+## Refazer o quiz para estudar
+
+Depois de concluir a tentativa oficial, o aluno pode usar **Refazer para estudar**
+no cartão do quiz ou no resultado. O treino permite responder novamente e conferir
+acertos, respostas corretas e explicações, com novas repetições sem limite.
+
+O modo de treino usa apenas o gabarito que o aluno já pode consultar após a
+finalização oficial. A correção é local e não chama a função de envio de tentativa,
+nem salva respostas, pontuação ou progresso de treino no banco. A primeira
+pontuação, as notas, o ranking e os relatórios da coordenação ficam inalterados.
+Fechar ou recarregar descarta o treino. A conta precisa continuar autorizada para
+consultar o quiz; vale também para quizzes encerrados com tentativa já registrada.
+Não exige SQL adicional.
