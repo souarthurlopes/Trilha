@@ -241,3 +241,37 @@ A consulta dos quizzes usa as permissões existentes da coordenação e filtra o
 aluno e a equipe no servidor, com paginação. Uma falha no módulo de quizzes não
 impede a consulta das notas e presenças, nem é apresentada como zero participações.
 Não exige SQL adicional. Alunos continuam sem acesso ao relatório da coordenação.
+
+## Aulas gravadas e anotações privadas
+
+A coordenação cadastra aulas em **Área do aluno > Aulas gravadas > Nova aula
+gravada**. Informe título, turma, data, link do YouTube, descrição e material de
+apoio opcional. Salve como publicado para aparecer em **Aprender > Aulas gravadas**.
+O vídeo deve permitir incorporação. O YouTube pode exigir verificação da conta
+para uploads com mais de 15 minutos. Vídeos não listados não aparecem na busca,
+mas quem possui o link pode compartilhá-lo. O acesso à página no app é por turma;
+o link do YouTube não é uma barreira de acesso ao arquivo de vídeo.
+
+Execute `dist/recorded-lessons.sql` no SQL Editor do Supabase existente e atualize
+os dados no app. Requer a área do aluno já instalada. A seção administrativa
+oferece o download do SQL. O esquema completo inclui o módulo para bancos novos.
+
+O aluno assiste no player incorporado do YouTube e escreve em Minhas anotações.
+O texto e a marcação manual de aula assistida são salvos automaticamente após
+uma pausa na edição, com opção de salvar imediatamente. As notas são privadas:
+colegas e coordenadores não podem consultá-las. Rascunhos, aulas arquivadas e
+outras turmas ficam bloqueados pelas regras do banco. Prévia da coordenação e
+modo local não gravam anotações pessoais.
+
+O salvamento usa revisão para impedir que outra janela sobrescreva silenciosamente
+o texto. Em erro, a anotação permanece na tela; o aluno pode tentar novamente ou
+baixar uma cópia. Fechar/Esc tenta salvar primeiro. Fechar sem salvar exige
+confirmação quando existem alterações pendentes. Recarregar ou sair com mudanças
+pendentes aciona o aviso do navegador. Isso não fornece salvamento offline: em
+falha de rede, mantenha a aula aberta ou baixe uma cópia do texto.
+
+Após a primeira publicação, vídeo e turma são fixados para preservar o contexto
+das anotações; use uma nova aula para outro vídeo. Arquivar desativa o acesso sem
+apagar as anotações; republicar restaura o acesso do aluno autorizado. Não há
+exclusão de aulas pela interface. A marcação de assistida é autodeclarada, sem
+rastrear a posição de reprodução nem alterar notas, frequência ou ranking.

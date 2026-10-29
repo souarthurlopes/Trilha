@@ -40,3 +40,6 @@
 
 /student-progress.js
   Cache-Control: no-cache
+
+/recorded-lessons.js
+  Cache-Control: no-cache
