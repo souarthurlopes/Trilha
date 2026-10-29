@@ -1,4 +1,4 @@
-const CACHE='trilha-v21';
+const CACHE='trilha-v22';
 const ASSETS=['./','./index.html','./style.css','./app.js','./quiz-utils.js','./quiz-practice.js','./recorded-lessons.js','./student-progress.js','./quiz-schedule.js','./quiz-results.js','./dashboard-utils.js','./config.js','./config-utils.js','./finance-utils.js','./supabase.js','./icon.svg','./brand-mark.svg','./brand-logo.svg','./brand-icon-192.png','./brand-icon-512.png','./manifest.webmanifest'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));self.skipWaiting()});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim()});

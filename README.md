@@ -297,3 +297,11 @@ pontuação, as notas, o ranking e os relatórios da coordenação ficam inalter
 Fechar ou recarregar descarta o treino. A conta precisa continuar autorizada para
 consultar o quiz; vale também para quizzes encerrados com tentativa já registrada.
 Não exige SQL adicional.
+
+## Ranking na página inicial
+
+A tela inicial do aluno mostra o ranking da semana atual da própria turma, com
+os cinco primeiros e a posição do aluno quando ele estiver fora desse grupo.
+Ver ranking completo abre a seção Quiz e ranking em Aprender. Voltar ao início
+retoma sempre a semana atual, mesmo após consultar semanas anteriores. As regras
+de pontuação, privacidade e primeira tentativa não mudam. Não exige SQL novo.
